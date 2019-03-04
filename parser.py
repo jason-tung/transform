@@ -32,5 +32,48 @@ The file follows the following format:
 
 See the file script for an example of the file format
 """
-def parse_file( fname, points, transform, screen, color ):
-    pass
+
+
+def run_cmds(cmd, prm, edg, trans, scr, clr):
+    if cmd == "line":
+        add_edge(edg, int(prm[0]), int(prm[1]), int(prm[2]), int(prm[3]), int(prm[4]), int(prm[5]))
+    elif cmd == "ident":
+        ident(trans)
+    elif cmd == "scale":
+        matrix_mult(make_scale(int(prm[0]), int(prm[1]), int(prm[2])), trans)
+    elif cmd == "translate":
+        #print(make_translate(int(prm[0]), int(prm[1]), int(prm[2])))
+        matrix_mult(make_translate(int(prm[0]), int(prm[1]), int(prm[2])), trans)
+    elif cmd == "rotate":
+        matrix_mult(
+            make_rotX(float(prm[1])) if prm[0] == "x" else make_rotY(float(prm[1])) if prm[0] == "y" else make_rotZ(
+                float(prm[1])), trans)
+    elif cmd == "apply":
+        matrix_mult(trans, edg)
+    elif cmd == "display":
+        clear_screen(scr)
+        draw_lines(edg, scr, clr)
+        display(scr)
+    elif cmd == "save":
+        clear_screen(scr)
+        draw_lines(edg, scr, clr)
+        save_extension(scr, prm[0])
+
+
+def parse_file(fname, edges, transform, screen, color):
+    cmd = ''
+    with open(fname) as f:
+        for l in f:
+            prms = l.rstrip('\n').split()
+            #print(prms)
+            if prms[0] == 'quit':
+                return
+            if prms[0] in ['display', 'apply', 'ident']:
+                #print("RUN", prms[0])
+                run_cmds(prms[0], prms, edges, transform, screen, color)
+            elif len(prms) > 1 or cmd == "save":
+                #print("RUNN", cmd, prms)
+                run_cmds(cmd, prms, edges, transform, screen, color)
+            else:
+                cmd = prms[0]
+                #print("setting cmd", cmd)

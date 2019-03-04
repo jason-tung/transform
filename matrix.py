@@ -9,76 +9,83 @@ z0  z1  ... zn
 """
 import math
 
-def make_translate( x, y, z ):
+
+def make_translate(x, y, z):
     idmat = new_matrix()
     ident(idmat)
-    hey = [x,y,z,1]
+    hey = [x, y, z, 1]
     for x in range(len(idmat)):
-        idmat[x][3] = hey[x]
+        idmat[3][x] = hey[x]
     return idmat
 
-def make_scale( x, y, z ):
+
+def make_scale(x, y, z):
     idmat = new_matrix()
     ident(idmat)
-    hey = [x,y,z,1]
+    hey = [x, y, z, 1]
     for x in range(len(idmat)):
         idmat[x][x] = hey[x]
     return idmat
 
-def make_rotX( theta ):
+
+def make_rotX(theta):
     idmat = new_matrix()
     ident(idmat)
     for x in range(2):
-        idmat[x+1][x+1] = Math.cos(theta)
-    idmat[2][1] = Math.sin(theta)
-    idmat[1][2] = -Math.sin(theta)
-    return idmat
-    
-def make_rotY( theta ):
-    idmat = new_matrix()
-    ident(idmat)
-    for x in range(0,3,2):
-        idmat[x][x] = Math.cos(theta)
-    idmat[2][0] = -Math.sin(theta)
-    idmat[0][2] = Math.sin(theta)
+        idmat[x + 1][x + 1] = math.cos(math.radians(theta))
+    idmat[1][2] = math.sin(math.radians(theta))
+    idmat[2][1] = -math.sin(math.radians(theta))
     return idmat
 
-def make_rotZ( theta ):
+
+def make_rotY(theta):
+    idmat = new_matrix()
+    ident(idmat)
+    for x in range(0, 3, 2):
+        idmat[x][x] = math.cos(math.radians(theta))
+    idmat[0][2] = -math.sin(math.radians(theta))
+    idmat[2][0] = math.sin(math.radians(theta))
+    return idmat
+
+
+def make_rotZ(theta):
     idmat = new_matrix()
     ident(idmat)
     for x in range(2):
-        idmat[x][x] = Math.cos(theta)
-    idmat[1][0] = Math.sin(theta)
-    idmat[0][1] = -Math.sin(theta)
+        idmat[x][x] = math.cos(math.radians(theta))
+    idmat[0][1] = math.sin(math.radians(theta))
+    idmat[1][0] = -math.sin(math.radians(theta))
     return idmat
 
-#print the matrix such that it looks like
-#the template in the top comment
-def print_matrix( matrix ):
+
+# print the matrix such that it looks like
+# the template in the top comment
+def print_matrix(matrix):
     s = ''
-    for r in range( len( matrix[0] ) ):
-        for c in range( len(matrix) ):
-            s+= str(matrix[c][r]) + ' '
-        s+= '\n'
-    print s
+    for r in range(len(matrix[0])):
+        for c in range(len(matrix)):
+            s += str(matrix[c][r]) + ' '
+        s += '\n'
+    print (s)
 
-#turn the paramter matrix into an identity matrix
-#you may assume matrix is square
-def ident( matrix ):
-    for r in range( len( matrix[0] ) ):
-        for c in range( len(matrix) ):
+
+# turn the paramter matrix into an identity matrix
+# you may assume matrix is square
+def ident(matrix):
+    for r in range(len(matrix[0])):
+        for c in range(len(matrix)):
             if r == c:
                 matrix[c][r] = 1
             else:
                 matrix[c][r] = 0
 
-#multiply m1 by m2, modifying m2 to be the product
-#m1 * m2 -> m2
-def matrix_mult( m1, m2 ):
 
+# multiply m1 by m2, modifying m2 to be the product
+# m1 * m2 -> m2
+def matrix_mult(m1, m2):
     point = 0
     for row in m2:
-        #get a copy of the next point
+        # get a copy of the next point
         tmp = row[:]
 
         for r in range(4):
@@ -86,13 +93,13 @@ def matrix_mult( m1, m2 ):
                             m1[1][r] * tmp[1] +
                             m1[2][r] * tmp[2] +
                             m1[3][r] * tmp[3])
-        point+= 1
+        point += 1
 
 
-def new_matrix(rows = 4, cols = 4):
+def new_matrix(rows=4, cols=4):
     m = []
-    for c in range( cols ):
-        m.append( [] )
-        for r in range( rows ):
-            m[c].append( 0 )
+    for c in range(cols):
+        m.append([])
+        for r in range(rows):
+            m[c].append(0)
     return m
