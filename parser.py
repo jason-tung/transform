@@ -44,6 +44,9 @@ def run_cmds(cmd, prm, edg, trans, scr, clr):
     elif cmd == "translate":
         #print(make_translate(int(prm[0]), int(prm[1]), int(prm[2])))
         matrix_mult(make_translate(int(prm[0]), int(prm[1]), int(prm[2])), trans)
+    elif cmd == "move":
+        #print(make_translate(int(prm[0]), int(prm[1]), int(prm[2])))
+        matrix_mult(make_translate(int(prm[0]), int(prm[1]), int(prm[2])), trans)
     elif cmd == "rotate":
         matrix_mult(
             make_rotX(float(prm[1])) if prm[0] == "x" else make_rotY(float(prm[1])) if prm[0] == "y" else make_rotZ(

@@ -3735,7 +3735,7 @@ line
 line
 169 183 10 168 187 10
 ident
-translate
+move
 20 20 0
 apply
 ident
@@ -3749,3 +3749,5 @@ rotate
 y 40
 apply
 display
+save
+hey.png
